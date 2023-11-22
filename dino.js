@@ -76,7 +76,7 @@ window.onload = function () {
     document.addEventListener("click", moveDino);
     document.addEventListener("keydown", function (e) {
         // Check if the key pressed is the up arrow key
-        if (e.code == "ArrowUp" && dino.y == dinoY) {
+        if (e.code == "ArrowUp" && dino.y == dinoY || e.code == "SpaceBar" && dino.y == dinnoY) {
             // jump
             velocityY = -10;
         }
