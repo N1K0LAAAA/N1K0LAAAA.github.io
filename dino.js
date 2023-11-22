@@ -1,9 +1,8 @@
-
 //board
 let board;
 let boardWidth = 400;
-if(window.innerWidth  >= 1200) {
-    boardWidth = 2000       
+if (window.innerWidth >= 1200) {
+    boardWidth = 2000
 }
 let boardHeight = 250;
 let context;
@@ -16,10 +15,10 @@ let dinoY = boardHeight - dinoHeight;
 let dinoImg;
 
 let dino = {
-    x : dinoX,
-    y : dinoY,
-    width : dinoWidth,
-    height : dinoHeight
+    x: dinoX,
+    y: dinoY,
+    width: dinoWidth,
+    height: dinoHeight
 }
 
 //cactus
@@ -31,7 +30,7 @@ let cactus3Width = 32;
 
 let cactusHeight = 70;
 let cactusX = 700;
-if(window.innerWidth >= 1200) {
+if (window.innerWidth >= 1200) {
     cactusX = 1500;
 }
 let cactusY = boardHeight - cactusHeight;
@@ -48,20 +47,16 @@ let gravity = .4;
 let gameOver = false;
 let score = 0;
 
-window.onload = function() {
+window.onload = function () {
     board = document.getElementById("board");
     board.height = boardHeight;
     board.width = boardWidth;
 
     context = board.getContext("2d"); //used for drawing on the board
 
-    //draw initial dinosaur
-    // context.fillStyle="green";
-    // context.fillRect(dino.x, dino.y, dino.width, dino.height);
-
     dinoImg = new Image();
     dinoImg.src = "./Santaclaus/santaidle.png";
-    dinoImg.onload = function() {
+    dinoImg.onload = function () {
         context.drawImage(dinoImg, dino.x, dino.y, dino.width, dino.height);
     }
 
@@ -76,20 +71,24 @@ window.onload = function() {
 
     requestAnimationFrame(update);
     setInterval(placeCactus, 850); //1000 milliseconds = 1 second
-    if(window.innerWidth >= 1200) {
-        document.addEventListener("keydown", moveDino);
-    }
-    
+
+    // Add event listener for both click and keyboard events
     document.addEventListener("click", moveDino);
+    document.addEventListener("keydown", function (e) {
+        // Check if the key pressed is the up arrow key
+        if (e.code == "ArrowUp" && dino.y == dinoY) {
+            // jump
+            velocityY = -10;
+        }
+    });
 }
 
 function update() {
     requestAnimationFrame(update);
     if (gameOver) {
-        alert("You Died!Your Score : " + score)
+        alert("You Died! Your Score : " + score)
         window.location.reload()
         return;
-        
     }
     context.clearRect(0, 0, board.width, board.height);
 
@@ -109,32 +108,26 @@ function update() {
         if (detectCollision(dino, cactus)) {
             gameOver = true;
             dinoImg.src = "./Santaclaus/Dead.png";
-            dinoImg.onload = function() {
+            dinoImg.onload = function () {
                 context.drawImage(dinoImg, dino.x, dino.y, dino.width, dino.height);
             }
         }
     }
 
     //score
-    context.fillStyle="black";
-    context.font="20px courier";
+    context.fillStyle = "black";
+    context.font = "20px courier";
     score++;
     context.fillText(score, 5, 20);
 }
 
-function moveDino(e) {
+function moveDino() {
     if (gameOver) {
         return;
     }
 
-    if ((e.code == "Space" || e.code == "ArrowUp") && dino.y == dinoY) {
-        //jump
-        velocityY = -10;
-    }
-    else if (e.code == "ArrowDown" && dino.y == dinoY) {
-        //duck
-    }
-
+    // jump
+    velocityY = -10;
 }
 
 function placeCactus() {
@@ -144,10 +137,10 @@ function placeCactus() {
 
     //place cactus
     let cactus = {
-        img : null,
-        x : cactusX,
-        y : cactusY,
-        width : null,
+        img: null,
+        x: cactusX,
+        y: cactusY,
+        width: null,
         height: cactusHeight
     }
 
@@ -176,7 +169,7 @@ function placeCactus() {
 
 function detectCollision(a, b) {
     return a.x < b.x + b.width &&   //a's top left corner doesn't reach b's top right corner
-           a.x + a.width > b.x &&   //a's top right corner passes b's top left corner
-           a.y < b.y + b.height &&  //a's top left corner doesn't reach b's bottom left corner
-           a.y + a.height > b.y;    //a's bottom left corner passes b's top left corner
+        a.x + a.width > b.x &&   //a's top right corner passes b's top left corner
+        a.y < b.y + b.height &&  //a's top left corner doesn't reach b's bottom left corner
+        a.y + a.height > b.y;    //a's bottom left corner passes b's top left corner
 }
