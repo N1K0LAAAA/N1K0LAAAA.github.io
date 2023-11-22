@@ -80,7 +80,7 @@ window.onload = function() {
         document.addEventListener("keydown", moveDino);
     }
     
-    someElement.addEventListener("touchstart", moveDino, false);
+    someElement.addEventListener("touchend", moveDino, false);
 }
 
 function update() {
