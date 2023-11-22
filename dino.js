@@ -32,7 +32,7 @@ let cactus3Width = 32;
 let cactusHeight = 70;
 let cactusX = 700;
 if(window.innerWidth >= 1200) {
-    cactusX = 2000;
+    cactusX = 1500;
 }
 let cactusY = boardHeight - cactusHeight;
 
@@ -75,7 +75,7 @@ window.onload = function() {
     cactus3Img.src = "./Santaclaus/tree.png";
 
     requestAnimationFrame(update);
-    setInterval(placeCactus, 750); //1000 milliseconds = 1 second
+    setInterval(placeCactus, 850); //1000 milliseconds = 1 second
     if(window.innerWidth >= 1200) {
         document.addEventListener("keydown", moveDino);
     }
