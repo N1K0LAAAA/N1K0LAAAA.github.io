@@ -32,7 +32,7 @@ let cactus3Width = 32;
 let cactusHeight = 70;
 let cactusX = 700;
 if(window.innerWidth >= 1200) {
-    cactusX == 1000;
+    cactusX == 3000;
 }
 let cactusY = boardHeight - cactusHeight;
 
