@@ -86,8 +86,7 @@ window.onload = function () {
 function update() {
     requestAnimationFrame(update);
     if (gameOver) {
-        alert("You Died! Your Score : " + score)
-        window.location.reload()
+
         return;
     }
     context.clearRect(0, 0, board.width, board.height);
@@ -107,6 +106,8 @@ function update() {
 
         if (detectCollision(dino, cactus)) {
             gameOver = true;
+            alert("You Died! Your Score : " + score)
+            window.location.reload()
             dinoImg.src = "./Santaclaus/Dead.png";
             dinoImg.onload = function () {
                 context.drawImage(dinoImg, dino.x, dino.y, dino.width, dino.height);
