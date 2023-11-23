@@ -46,7 +46,7 @@ let gravity = .4;
 
 let gameOver = false;
 let score = 0;
-let lastTime = 0;
+let jumpAvailable = true;
 
 window.onload = function () {
     board = document.getElementById("board");
@@ -76,28 +76,20 @@ window.onload = function () {
     // Add event listener for both click and keyboard events
     document.addEventListener("click", moveDino);
     document.addEventListener("keydown", function (e) {
-        // Check if the key pressed is the up arrow key
-        if (e.code == "ArrowUp" && dino.y == dinoY) {
+        // Check if the key pressed is the space bar
+        if (e.code == "Space" && dino.y == dinoY) {
             // jump
-            velocityY = -10;
+            moveDino();
         }
     });
 }
 
-function update(timestamp) {
+function update() {
     requestAnimationFrame(update);
 
     if (gameOver) {
         return;
     }
-
-    const deltaTime = timestamp - lastTime; // Time passed since the last frame
-    lastTime = timestamp;
-
-    if (deltaTime < 1000 / 120) {
-        return;
-    }
-
     context.clearRect(0, 0, board.width, board.height);
 
     //dino
@@ -129,17 +121,21 @@ function update(timestamp) {
     context.font = "20px courier";
     score++;
     context.fillText(score, 5, 20);
+
+    // Reset jumpAvailable if dino is on the ground
+    if (dino.y >= dinoY) {
+        jumpAvailable = true;
+    }
 }
 
 function moveDino() {
-    if (gameOver) {
+    if (gameOver || !jumpAvailable) {
         return;
     }
 
-    // jump only if the dino is on the ground
-    if (dino.y == dinoY) {
-        velocityY = -10;
-    }
+    // jump
+    velocityY = -10;
+    jumpAvailable = false; // Set to false to prevent double jumping
 }
 
 function placeCactus() {
