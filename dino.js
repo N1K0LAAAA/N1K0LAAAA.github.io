@@ -94,8 +94,7 @@ function update(timestamp) {
     const deltaTime = timestamp - lastTime; // Time passed since the last frame
     lastTime = timestamp;
 
-    // Limit the frame rate to 60 fps
-    if (deltaTime < 1000 / 60) {
+    if (deltaTime < 1000 / 120) {
         return;
     }
 
