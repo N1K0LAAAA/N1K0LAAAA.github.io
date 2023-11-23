@@ -46,6 +46,7 @@ let gravity = .4;
 
 let gameOver = false;
 let score = 0;
+let lastTime = 0;
 
 window.onload = function () {
     board = document.getElementById("board");
@@ -83,12 +84,21 @@ window.onload = function () {
     });
 }
 
-function update() {
+function update(timestamp) {
     requestAnimationFrame(update);
-    if (gameOver) {
 
+    if (gameOver) {
         return;
     }
+
+    const deltaTime = timestamp - lastTime; // Time passed since the last frame
+    lastTime = timestamp;
+
+    // Limit the frame rate to 60 fps
+    if (deltaTime < 1000 / 60) {
+        return;
+    }
+
     context.clearRect(0, 0, board.width, board.height);
 
     //dino
@@ -127,8 +137,10 @@ function moveDino() {
         return;
     }
 
-    // jump
-    velocityY = -10;
+    // jump only if the dino is on the ground
+    if (dino.y == dinoY) {
+        velocityY = -10;
+    }
 }
 
 function placeCactus() {
